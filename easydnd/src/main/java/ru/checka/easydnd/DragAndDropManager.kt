@@ -2,15 +2,13 @@ package ru.checka.easydnd
 
 import android.content.ClipData
 import android.content.ClipDescription
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Point
 import android.view.DragEvent
 import android.view.View
-import android.view.View.DRAG_FLAG_OPAQUE
 
 
+/**
+ * Main class of DragAndDrop
+ */
 class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
 
     private var senders: MutableSet<DragAndDropObject<S>> = mutableSetOf()
@@ -19,13 +17,21 @@ class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
 
 
     private val configs = SenderToReceiverActions<DragAndDropLocalConfig<S, R>>()
-    private var defaultConfig: DragAndDropDefaultConfig<S, R>? = null
+    private var defaultConfig: DragAndDropDefaultConfig<S, R> = DragAndDropDefaultConfig()
 
-    fun applyDragAndDrop() {
-        prepareSenders()
-        prepareReceivers()
+    /**
+     * Add default settings
+     */
+    fun default(init: (DragAndDropDefaultConfig<S, R>.() -> Unit)) {
+        defaultConfig.init()
     }
 
+    /**
+     * Maps set of sender objects to receivers
+     * @param newSenders senders
+     * @param newReceivers receivers
+     * @param init overriding some default behavior for those pairs
+     */
     fun mapSets(
         newSenders: Set<DragAndDropObject<S>>,
         newReceivers: Set<DragAndDropObject<R>>,
@@ -62,27 +68,25 @@ class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
 
     }
 
-    fun default(init: (DragAndDropDefaultConfig<S, R>.() -> Unit)) {
-        defaultConfig = DragAndDropDefaultConfig<S, R>().apply { init() }
+    internal fun applyDragAndDrop() {
+        prepareSenders()
+        prepareReceivers()
     }
 
     /**
      * Checks defaultConfig, sender and receiver on null and (sender -> receiver) mapping existing
      */
     private fun checkSenderReceiver(sender: DragAndDropObject<S>?, receiver: DragAndDropObject<R>?): Boolean {
-        if (defaultConfig == null || sender == null || receiver == null)
+        if (sender == null || receiver == null)
             return false
         val set = receiverSenderMap[receiver.assignedObject.tag]
-        if (defaultConfig!!.selfDrop || sender.assignedObject.tag != receiver.assignedObject.tag) {
+        if (defaultConfig.selfDrop || sender.assignedObject.tag != receiver.assignedObject.tag) {
             return set != null && set.contains(sender.assignedObject.tag)
         }
         return false
     }
 
     private fun prepareReceivers() {
-        if (defaultConfig == null)
-            return
-
         var lastTag: String? = null
         val onDragListener: (View, DragEvent) -> Boolean = { view, event ->
 
@@ -93,7 +97,7 @@ class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
                     if (checkSenderReceiver(sender, receiver)) {
                         val localConfig = configs[sender!!.assignedObject.tag, receiver!!.assignedObject.tag]
                         localConfig?.onDropped?.invoke(sender.assignedObject, receiver.assignedObject)
-                            ?: defaultConfig!!.onDropped?.invoke(sender.assignedObject, receiver.assignedObject)
+                            ?: defaultConfig.onDropped?.invoke(sender.assignedObject, receiver.assignedObject)
                     }
 
                 }
@@ -104,7 +108,7 @@ class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
                     if (checkSenderReceiver(sender, receiver)) {
                         val localConfig = configs[sender!!.assignedObject.tag, receiver!!.assignedObject.tag]
                         localConfig?.onDragEntered?.invoke(view)
-                            ?: defaultConfig!!.onDragEntered?.invoke(view)
+                            ?: defaultConfig.onDragEntered?.invoke(view)
                     }
 
                 }
@@ -114,7 +118,7 @@ class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
                     if (checkSenderReceiver(sender, receiver)) {
                         val localConfig = configs[sender!!.assignedObject.tag, receiver!!.assignedObject.tag]
                         localConfig?.onDragExited?.invoke(view)
-                            ?: defaultConfig!!.onDragExited?.invoke(view)
+                            ?: defaultConfig.onDragExited?.invoke(view)
                     }
                 }
 
@@ -123,17 +127,17 @@ class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
                     senders
                         .find { it.assignedObject.tag == lastTag }
                         ?.let {
-                            defaultConfig?.onSenderDragStart?.invoke(it)
+                            defaultConfig.onSenderDragStart?.invoke(it)
                         }
                 }
 
                 DragEvent.ACTION_DRAG_ENDED -> {
-                    val action = configs[lastTag!!, view.tag as String]?.onDragExited ?: defaultConfig?.onDragExited
+                    val action = configs[lastTag!!, view.tag as String]?.onDragExited ?: defaultConfig.onDragExited
                     action?.invoke(view)
                     senders
                         .find { it.assignedObject.tag == lastTag }
                         ?.let {
-                            defaultConfig?.onSenderDragStop?.invoke(it)
+                            defaultConfig.onSenderDragStop?.invoke(it)
                         }
                 }
 
@@ -147,24 +151,23 @@ class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
     }
 
     private fun prepareSenders() {
-        if (defaultConfig != null) {
-            val dragFlags = defaultConfig!!.dragFlags
-            val sbBuilder = defaultConfig!!.shadowBuilder
+        val dragFlags = defaultConfig.dragFlags
+        val sbBuilder = defaultConfig.shadowBuilder
 
-            val action: (View, S) -> Boolean = { view, obj ->
-                val item = ClipData.Item("DragAndDrop" as CharSequence)
-                val dragData = ClipData(obj.tag, arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN), item)
-                view.startDragAndDrop(dragData, sbBuilder(view, obj), null, dragFlags)
-                true
+        val action: (View, S) -> Boolean = { view, obj ->
+            val item = ClipData.Item("DragAndDrop" as CharSequence)
+            val dragData = ClipData(obj.tag, arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN), item)
+            view.startDragAndDrop(dragData, sbBuilder(view, obj), null, dragFlags)
+            true
 
-            }
-
-            when (defaultConfig!!.userAction) {
-                UserAction.TOUCH -> senders.forEach { it.setOnTouchListener(action) }
-
-                UserAction.LONG_CLICK -> senders.forEach { it.setOnLongClickListener(action) }
-            }
         }
+
+        when (defaultConfig.userAction) {
+            UserAction.TOUCH -> senders.forEach { it.setOnTouchListener(action) }
+
+            UserAction.LONG_CLICK -> senders.forEach { it.setOnLongClickListener(action) }
+        }
+
 
     }
 
