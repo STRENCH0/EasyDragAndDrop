@@ -43,15 +43,11 @@ class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
         receivers.addAll(newReceivers)
         for (receiver in newReceivers) {
             for (sender in newSenders) {
-                receiverSenderMap.compute(receiver.assignedObject.tag) { _, v ->
-                    val senderTag = sender.assignedObject.tag
-                    v?.apply { add(senderTag) } ?: mutableSetOf(senderTag)
-                }
-//                val receiverTag = receiver.assignedObject.tag
-//                val senderTag = sender.assignedObject.tag
-//                var senders = receiverSenderMap[receiverTag]
-//                senders = senders?.apply { add(senderTag) } ?: mutableSetOf(senderTag)
-//                receiverSenderMap[receiverTag] = senders
+                val receiverTag = receiver.assignedObject.tag
+                val senderTag = sender.assignedObject.tag
+                receiverSenderMap
+                    .getOrPut(receiverTag, ::mutableSetOf)
+                    .add(senderTag)
             }
         }
         //save custom config
@@ -79,9 +75,10 @@ class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
     private fun checkSenderReceiver(sender: DragAndDropObject<S>?, receiver: DragAndDropObject<R>?): Boolean {
         if (sender == null || receiver == null)
             return false
-        val set = receiverSenderMap[receiver.assignedObject.tag]
         if (defaultConfig.selfDrop || sender.assignedObject.tag != receiver.assignedObject.tag) {
-            return set != null && set.contains(sender.assignedObject.tag)
+            return receiverSenderMap[receiver.assignedObject.tag]
+                ?.contains(sender.assignedObject.tag)
+                ?: false
         }
         return false
     }
@@ -112,6 +109,7 @@ class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
                     }
 
                 }
+
                 DragEvent.ACTION_DRAG_EXITED -> {
                     val sender = senders.find { event.clipDescription.label == it.assignedObject.tag }
                     val receiver = receivers.find { view.tag == it.assignedObject.tag }
@@ -157,7 +155,11 @@ class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
         val action: (View, S) -> Boolean = { view, obj ->
             val item = ClipData.Item("DragAndDrop" as CharSequence)
             val dragData = ClipData(obj.tag, arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN), item)
-            view.startDragAndDrop(dragData, sbBuilder(view, obj), null, dragFlags)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                view.startDragAndDrop(dragData, sbBuilder(view, obj), null, dragFlags)
+            } else {
+                view.startDrag(dragData, sbBuilder(view, obj), null, dragFlags)
+            }
             true
 
         }

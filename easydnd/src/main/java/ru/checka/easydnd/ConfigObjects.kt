@@ -2,7 +2,7 @@ package ru.checka.easydnd
 
 import android.view.View
 
-public abstract class BaseConfig<S : DragAssignment, R : DragAssignment> {
+abstract class BaseConfig<S : DragAssignment, R : DragAssignment> internal constructor(){
 
     /**
      * Calls when dropping is performed. Sender and Receiver objects of type [DragAndDropObject] will be passed as params
@@ -48,7 +48,7 @@ public abstract class BaseConfig<S : DragAssignment, R : DragAssignment> {
 /**
  * Default configuration class
  */
-public class DragAndDropDefaultConfig<S : DragAssignment, R : DragAssignment> : BaseConfig<S, R>() {
+class DragAndDropDefaultConfig<S : DragAssignment, R : DragAssignment> : BaseConfig<S, R>() {
 
     /**
      * Calls when start dragging sender. Sender [DragAndDropObject] will be passed as param
@@ -71,7 +71,7 @@ public class DragAndDropDefaultConfig<S : DragAssignment, R : DragAssignment> : 
     var userAction: UserAction = UserAction.TOUCH
 
     /**
-     * Override default [ShadowBuilder]
+     * Override default [View.DragShadowBuilder]
      */
     var shadowBuilder: (View, DragAssignment) -> View.DragShadowBuilder = { view, _ -> DefaultShadowBuilder(view) }
 
@@ -100,13 +100,13 @@ public class DragAndDropDefaultConfig<S : DragAssignment, R : DragAssignment> : 
 /**
  * Additional configuration which can override default behavior of [DragAndDropDefaultConfig]
  */
-public class DragAndDropLocalConfig<S : DragAssignment, R : DragAssignment> : BaseConfig<S, R>()
+class DragAndDropLocalConfig<S : DragAssignment, R : DragAssignment> : BaseConfig<S, R>()
 
 
 /**
  * User actions
  */
-public enum class UserAction {
+enum class UserAction {
     /**
      * Drag must be performed on user's touch action
      */
