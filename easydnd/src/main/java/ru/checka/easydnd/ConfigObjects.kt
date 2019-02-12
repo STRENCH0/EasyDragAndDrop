@@ -2,6 +2,7 @@ package ru.checka.easydnd
 
 import android.view.View
 
+@ConfigMarker
 abstract class BaseConfig<S : DragAssignment, R : DragAssignment> internal constructor(){
 
     /**
@@ -118,3 +119,5 @@ enum class UserAction {
     LONG_CLICK
 }
 
+@DslMarker
+annotation class ConfigMarker

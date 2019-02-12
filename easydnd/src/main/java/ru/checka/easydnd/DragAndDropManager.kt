@@ -9,6 +9,7 @@ import android.view.View
 /**
  * Main class of DragAndDrop
  */
+@ConfigMarker
 class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
 
     private var senders: MutableSet<DragAndDropObject<S>> = mutableSetOf()
