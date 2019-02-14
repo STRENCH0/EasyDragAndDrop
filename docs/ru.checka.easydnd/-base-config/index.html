@@ -1,0 +1,100 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>BaseConfig - easydnd</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">easydnd</a>&nbsp;/&nbsp;<a href="../index.html">ru.checka.easydnd</a>&nbsp;/&nbsp;<a href="./index.html">BaseConfig</a><br/>
+<br/>
+<h1>BaseConfig</h1>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">BaseConfig</span><span class="symbol">&lt;</span><span class="identifier">S</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">, </span><span class="identifier">R</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">&gt;</span></code>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="on-drag-entered.html">onDragEntered</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">onDragEntered</span><span class="symbol">: </span><span class="symbol">(</span><a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Calls when drag object covers receiver's area. Receiver <a href="https://developer.android.com/reference/android/view/View.html">View</a> will be passed as param</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="on-drag-exited.html">onDragExited</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">onDragExited</span><span class="symbol">: </span><span class="symbol">(</span><a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Calls when drag object stop covers receiver's area. Receiver <a href="https://developer.android.com/reference/android/view/View.html">View</a> will be passed as param</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="on-dropped.html">onDropped</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">onDropped</span><span class="symbol">: </span><span class="symbol">(</span><span class="identifier">sender</span><span class="symbol">:</span>&nbsp;<a href="index.html#S"><span class="identifier">S</span></a><span class="symbol">,</span>&nbsp;<span class="identifier">receiver</span><span class="symbol">:</span>&nbsp;<a href="index.html#R"><span class="identifier">R</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Calls when dropping is performed. Sender and Receiver objects of type <a href="../-drag-and-drop-object/index.html">DragAndDropObject</a> will be passed as params</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="on-drag-entered.html">onDragEntered</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">onDragEntered</span><span class="symbol">(</span><span class="identifier" id="ru.checka.easydnd.BaseConfig$onDragEntered(kotlin.Function1((android.view.View, kotlin.Unit)))/action">action</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>DSL-like method for variable <a href="on-drag-entered.html">onDragEntered</a></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="on-drag-exited.html">onDragExited</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">onDragExited</span><span class="symbol">(</span><span class="identifier" id="ru.checka.easydnd.BaseConfig$onDragExited(kotlin.Function1((android.view.View, kotlin.Unit)))/action">action</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>DSL-like method for variable <a href="on-drag-exited.html">onDragExited</a></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="on-dropped.html">onDropped</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">onDropped</span><span class="symbol">(</span><span class="identifier" id="ru.checka.easydnd.BaseConfig$onDropped(kotlin.Function2((ru.checka.easydnd.BaseConfig.S, ru.checka.easydnd.BaseConfig.R, kotlin.Unit)))/action">action</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><span class="identifier">sender</span><span class="symbol">:</span>&nbsp;<a href="index.html#S"><span class="identifier">S</span></a><span class="symbol">,</span>&nbsp;<span class="identifier">receiver</span><span class="symbol">:</span>&nbsp;<a href="index.html#R"><span class="identifier">R</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>DSL-like method for variable <a href="on-dropped.html">onDropped</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-drag-and-drop-default-config/index.html">DragAndDropDefaultConfig</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">DragAndDropDefaultConfig</span><span class="symbol">&lt;</span><span class="identifier">S</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">, </span><span class="identifier">R</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">BaseConfig</span></a><span class="symbol">&lt;</span><a href="../-drag-and-drop-default-config/index.html#S"><span class="identifier">S</span></a><span class="symbol">,</span>&nbsp;<a href="../-drag-and-drop-default-config/index.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span></code>
+<p>Default configuration class</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="../-drag-and-drop-local-config/index.html">DragAndDropLocalConfig</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">DragAndDropLocalConfig</span><span class="symbol">&lt;</span><span class="identifier">S</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">, </span><span class="identifier">R</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">BaseConfig</span></a><span class="symbol">&lt;</span><a href="../-drag-and-drop-local-config/index.html#S"><span class="identifier">S</span></a><span class="symbol">,</span>&nbsp;<a href="../-drag-and-drop-local-config/index.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span></code>
+<p>Additional configuration which can override default behavior of <a href="../-drag-and-drop-default-config/index.html">DragAndDropDefaultConfig</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

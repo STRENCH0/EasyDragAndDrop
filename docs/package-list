@@ -1,0 +1,4 @@
+$dokka.format:html
+$dokka.linkExtension:html
+$dokka.location:ru.checka.easydnd$assign(android.view.View, ru.checka.easydnd.assign.T)ru.checka.easydnd/android.view.-view/assign.html
+ru.checka.easydnd
