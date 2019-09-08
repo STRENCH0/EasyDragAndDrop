@@ -41,7 +41,7 @@ enableDragAndDrop<Assignment, Assignment> {
     }
 }
 ```
-5. Enjoy it!
+5. Enjoy it! You can also find kotlin docs [here](https://strench0.github.io/EasyDragAndDrop/).
 
 # Installation
 1. Add it in your root build.gradle at the end of repositories:
