@@ -83,9 +83,6 @@ class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
         for (receiver in receivers) {
             receiver.view.setOnDragListener{ _, _ -> true }
         }
-        senders.clear()
-        receivers.clear()
-        receiverSenderMap.clear()
     }
 
     /**

@@ -13,7 +13,7 @@ class DragAndDropControllerImpl<S : DragAssignment, R : DragAssignment>(
         manager.applyDragAndDrop()
     }
 
-    override fun disable() {
-        manager.disable()
-    }
+    override fun disable() = manager.disable()
+
+    override fun enable() = manager.applyDragAndDrop()
 }

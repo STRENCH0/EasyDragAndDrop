@@ -10,4 +10,6 @@ interface DragAndDropController<S : DragAssignment, R : DragAssignment> {
 
     public fun disable()
 
+    public fun enable()
+
 }
