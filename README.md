@@ -1,3 +1,4 @@
+[![](https://jitpack.io/v/STRENCH0/EasyDragAndDrop.svg)](https://jitpack.io/#STRENCH0/EasyDragAndDrop)
 # Briefing
 Do you want to implement In-App drag and drop in your android kotlin application? It's very simple! Here is 5 steps to do it using easy dnd:
 1. Create class which will store all transfering data:
