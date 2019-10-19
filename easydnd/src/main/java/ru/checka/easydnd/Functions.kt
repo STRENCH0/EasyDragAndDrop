@@ -8,10 +8,12 @@ import android.view.View
  * @param [R] type of receiver's associated object
  * @param init [DragAndDropManager] DSL-configuration
  */
-public fun <S : DragAssignment, R : DragAssignment> enableDragAndDrop(init: DragAndDropManager<S, R>.() -> Unit) {
+public fun <S : DragAssignment, R : DragAssignment> enableDragAndDrop(
+    init: DragAndDropManager<S, R>.() -> Unit
+): DragAndDropController<S, R> {
     val config = DragAndDropManager<S, R>().apply(init)
     config.applyDragAndDrop()
-
+    return DragAndDropControllerImpl(config)
 }
 
 /**

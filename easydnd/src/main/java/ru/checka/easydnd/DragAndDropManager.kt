@@ -70,10 +70,31 @@ class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
         prepareReceivers()
     }
 
+    internal fun disable() {
+        val emptyAction: (View, S) -> Boolean = { _, _ -> true }
+        for (sender in senders) {
+            if (defaultConfig.userAction == UserAction.TOUCH) {
+                sender.setOnTouchListener(emptyAction)
+            }
+            if (defaultConfig.userAction == UserAction.LONG_CLICK) {
+                sender.setOnLongClickListener(emptyAction)
+            }
+        }
+        for (receiver in receivers) {
+            receiver.view.setOnDragListener{ _, _ -> true }
+        }
+        senders.clear()
+        receivers.clear()
+        receiverSenderMap.clear()
+    }
+
     /**
      * Checks defaultConfig, sender and receiver on null and (sender -> receiver) mapping existing
      */
-    private fun checkSenderReceiver(sender: DragAndDropObject<S>?, receiver: DragAndDropObject<R>?): Boolean {
+    private fun checkSenderReceiver(
+        sender: DragAndDropObject<S>?,
+        receiver: DragAndDropObject<R>?
+    ): Boolean {
         if (sender == null || receiver == null)
             return false
         if (defaultConfig.selfDrop || sender.assignedObject.tag != receiver.assignedObject.tag) {
@@ -90,21 +111,31 @@ class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
 
             when (event.action) {
                 DragEvent.ACTION_DROP -> {
-                    val sender = senders.find { event.clipDescription.label == it.assignedObject.tag }
+                    val sender =
+                        senders.find { event.clipDescription.label == it.assignedObject.tag }
                     val receiver = receivers.find { view.tag == it.assignedObject.tag }
                     if (checkSenderReceiver(sender, receiver)) {
-                        val localConfig = configs[sender!!.assignedObject.tag, receiver!!.assignedObject.tag]
-                        localConfig?.onDropped?.invoke(sender.assignedObject, receiver.assignedObject)
-                            ?: defaultConfig.onDropped?.invoke(sender.assignedObject, receiver.assignedObject)
+                        val localConfig =
+                            configs[sender!!.assignedObject.tag, receiver!!.assignedObject.tag]
+                        localConfig?.onDropped?.invoke(
+                            sender.assignedObject,
+                            receiver.assignedObject
+                        )
+                            ?: defaultConfig.onDropped?.invoke(
+                                sender.assignedObject,
+                                receiver.assignedObject
+                            )
                     }
 
                 }
 
                 DragEvent.ACTION_DRAG_ENTERED -> {
-                    val sender = senders.find { event.clipDescription.label == it.assignedObject.tag }
+                    val sender =
+                        senders.find { event.clipDescription.label == it.assignedObject.tag }
                     val receiver = receivers.find { view.tag == it.assignedObject.tag }
                     if (checkSenderReceiver(sender, receiver)) {
-                        val localConfig = configs[sender!!.assignedObject.tag, receiver!!.assignedObject.tag]
+                        val localConfig =
+                            configs[sender!!.assignedObject.tag, receiver!!.assignedObject.tag]
                         localConfig?.onDragEntered?.invoke(view)
                             ?: defaultConfig.onDragEntered?.invoke(view)
                     }
@@ -112,10 +143,12 @@ class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
                 }
 
                 DragEvent.ACTION_DRAG_EXITED -> {
-                    val sender = senders.find { event.clipDescription.label == it.assignedObject.tag }
+                    val sender =
+                        senders.find { event.clipDescription.label == it.assignedObject.tag }
                     val receiver = receivers.find { view.tag == it.assignedObject.tag }
                     if (checkSenderReceiver(sender, receiver)) {
-                        val localConfig = configs[sender!!.assignedObject.tag, receiver!!.assignedObject.tag]
+                        val localConfig =
+                            configs[sender!!.assignedObject.tag, receiver!!.assignedObject.tag]
                         localConfig?.onDragExited?.invoke(view)
                             ?: defaultConfig.onDragExited?.invoke(view)
                     }
@@ -131,7 +164,8 @@ class DragAndDropManager<S : DragAssignment, R : DragAssignment> {
                 }
 
                 DragEvent.ACTION_DRAG_ENDED -> {
-                    val action = configs[lastTag!!, view.tag as String]?.onDragExited ?: defaultConfig.onDragExited
+                    val action = configs[lastTag!!, view.tag as String]?.onDragExited
+                        ?: defaultConfig.onDragExited
                     action?.invoke(view)
                     senders
                         .find { it.assignedObject.tag == lastTag }

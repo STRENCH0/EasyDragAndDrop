@@ -22,6 +22,8 @@ internal class SenderToReceiverActions<A> {
         map[receiverTag]!![senderTag] = config
     }
 
+    fun clear() = map.clear()
+
 }
 
 internal fun <T : DragAssignment> DragAndDropObject<T>.setOnTouchListener(action: (View, T) -> Boolean) {
