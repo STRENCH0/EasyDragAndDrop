@@ -1,15 +1,18 @@
 package ru.checka.easydnd
 
-interface DragAndDropController<S : DragAssignment, R : DragAssignment> {
+/**
+ * Controller to manage drag-and-drop after initial dsl setup
+ */
+interface DragAndDropController<S, R> {
 
-    public fun mapSets(
+    fun mapSets(
         newSenders: Set<DragAndDropObject<S>>,
         newReceivers: Set<DragAndDropObject<R>>,
         init: (DragAndDropLocalConfig<S, R>.() -> Unit)? = null
     )
 
-    public fun disable()
+    fun disable()
 
-    public fun enable()
+    fun enable()
 
 }

@@ -1,29 +1,21 @@
 package ru.checka.easydnd
 
 import android.view.View
+import java.util.*
 
 /**
  * Basic interface for DragAndDrop
  */
-interface DragAndDropObject<out T : DragAssignment> {
+data class DragAndDropObject<T>(
     /**
      * View which will be dragged
      */
-    val view: View
-
+    val view: View,
     /**
      * Associated object with additional information
      */
     val assignedObject: T
+) {
+    val tag = UUID.randomUUID().toString()
 }
 
-/**
- * Every DragAndDrop receiver and sender must implement this interface. Property [tag] must be unique!
- */
-interface DragAssignment {
-
-    /**
-     * Must be UNIQUE!
-     */
-    val tag: String
-}

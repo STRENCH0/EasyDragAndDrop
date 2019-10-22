@@ -26,12 +26,12 @@ internal class SenderToReceiverActions<A> {
 
 }
 
-internal fun <T : DragAssignment> DragAndDropObject<T>.setOnTouchListener(action: (View, T) -> Boolean) {
-    this.view.setOnTouchListener { v, _ -> action(v, this.assignedObject) }
+internal fun <T> DragAndDropObject<T>.setOnTouchListener(action: (View, T, String) -> Boolean) {
+    this.view.setOnTouchListener { v, _ -> action(v, this.assignedObject, tag) }
 }
 
 
-internal fun <T : DragAssignment> DragAndDropObject<T>.setOnLongClickListener(action: (View, T) -> Boolean) {
-    this.view.setOnLongClickListener { v -> action(v, this.assignedObject) }
+internal fun <T> DragAndDropObject<T>.setOnLongClickListener(action: (View, T, String) -> Boolean) {
+    this.view.setOnLongClickListener { v -> action(v, this.assignedObject, tag) }
 }
 

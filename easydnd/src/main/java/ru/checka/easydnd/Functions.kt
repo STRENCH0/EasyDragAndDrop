@@ -8,21 +8,20 @@ import android.view.View
  * @param [R] type of receiver's associated object
  * @param init [DragAndDropManager] DSL-configuration
  */
-public fun <S : DragAssignment, R : DragAssignment> enableDragAndDrop(
-    init: DragAndDropManager<S, R>.() -> Unit
+fun <S, R> enableDragAndDrop(
+    init: DragAndDropDslFacade<S, R>.() -> Unit
 ): DragAndDropController<S, R> {
-    val config = DragAndDropManager<S, R>().apply(init)
-    config.applyDragAndDrop()
-    return DragAndDropControllerImpl(config)
+    val manager = DragAndDropManager<S, R>()
+    val facade = DragAndDropDslFacade(manager)
+    facade.init()
+    manager.applyDragAndDrop()
+    return DragAndDropControllerImpl(manager)
 }
 
 /**
  * Simple creation of [DragAndDropObject]
  * @param assigned assigned object
  */
-public infix fun <T : DragAssignment> View.assign(assigned: T): DragAndDropObject<T> {
-    return object : DragAndDropObject<T> {
-        override val view = this@assign
-        override val assignedObject = assigned
-    }
+infix fun <T> View.assign(assigned: T): DragAndDropObject<T> {
+    return DragAndDropObject<T>(this, assigned)
 }

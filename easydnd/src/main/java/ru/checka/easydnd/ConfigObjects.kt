@@ -3,7 +3,7 @@ package ru.checka.easydnd
 import android.view.View
 
 @ConfigMarker
-abstract class BaseConfig<S : DragAssignment, R : DragAssignment> internal constructor(){
+abstract class BaseConfig<S, R> internal constructor(){
 
     /**
      * Calls when dropping is performed. Sender and Receiver objects of type [DragAndDropObject] will be passed as params
@@ -49,7 +49,7 @@ abstract class BaseConfig<S : DragAssignment, R : DragAssignment> internal const
 /**
  * Default configuration class
  */
-class DragAndDropDefaultConfig<S : DragAssignment, R : DragAssignment> : BaseConfig<S, R>() {
+class DragAndDropDefaultConfig<S, R> : BaseConfig<S, R>() {
 
     /**
      * Calls when start dragging sender. Sender [DragAndDropObject] will be passed as param
@@ -74,7 +74,7 @@ class DragAndDropDefaultConfig<S : DragAssignment, R : DragAssignment> : BaseCon
     /**
      * Override default [View.DragShadowBuilder]
      */
-    var shadowBuilder: (View, DragAssignment) -> View.DragShadowBuilder = { view, _ -> DefaultShadowBuilder(view) }
+    var shadowBuilder: (View, S) -> View.DragShadowBuilder = { view, _ -> DefaultShadowBuilder(view) }
 
     /**
      * Drag flags of [View]. Use flags starting with prefix DRAG_FLAG_
@@ -101,7 +101,7 @@ class DragAndDropDefaultConfig<S : DragAssignment, R : DragAssignment> : BaseCon
 /**
  * Additional configuration which can override default behavior of [DragAndDropDefaultConfig]
  */
-class DragAndDropLocalConfig<S : DragAssignment, R : DragAssignment> : BaseConfig<S, R>()
+class DragAndDropLocalConfig<S, R> : BaseConfig<S, R>()
 
 
 /**
