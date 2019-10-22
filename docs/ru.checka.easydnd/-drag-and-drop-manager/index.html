@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="../../style.css">
 </HEAD>
 <BODY>
-<a href="../../index.html">easydnd</a>&nbsp;/&nbsp;<a href="../index.html">ru.checka.easydnd</a>&nbsp;/&nbsp;<a href="./index.html">DragAndDropManager</a><br/>
+<a href="../index.html">easydnd</a>&nbsp;/&nbsp;<a href="../index.html">ru.checka.easydnd</a>&nbsp;/&nbsp;<a href="./index.html">DragAndDropManager</a><br/>
 <br/>
 <h1>DragAndDropManager</h1>
-<code><span class="keyword">class </span><span class="identifier">DragAndDropManager</span><span class="symbol">&lt;</span><span class="identifier">S</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">, </span><span class="identifier">R</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">DragAndDropManager</span><span class="symbol">&lt;</span><span class="identifier">S</span><span class="symbol">, </span><span class="identifier">R</span><span class="symbol">&gt;</span></code>
 <p>Main class of DragAndDrop</p>
 <h3>Constructors</h3>
 <table>
@@ -24,16 +24,37 @@
 </tr>
 </tbody>
 </table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="default-config.html">defaultConfig</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">defaultConfig</span><span class="symbol">: </span><a href="../-drag-and-drop-default-config/index.html"><span class="identifier">DragAndDropDefaultConfig</span></a><span class="symbol">&lt;</span><a href="index.html#S"><span class="identifier">S</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
 <h3>Functions</h3>
 <table>
 <tbody>
 <tr>
 <td>
-<p><a href="default.html">default</a></p>
+<p><a href="apply-drag-and-drop.html">applyDragAndDrop</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">default</span><span class="symbol">(</span><span class="identifier" id="ru.checka.easydnd.DragAndDropManager$default(kotlin.Function1((ru.checka.easydnd.DragAndDropDefaultConfig((ru.checka.easydnd.DragAndDropManager.S, ru.checka.easydnd.DragAndDropManager.R)), kotlin.Unit)))/init">init</span><span class="symbol">:</span>&nbsp;<a href="../-drag-and-drop-default-config/index.html"><span class="identifier">DragAndDropDefaultConfig</span></a><span class="symbol">&lt;</span><a href="index.html#S"><span class="identifier">S</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
-<p>Add default settings</p>
+<code><span class="keyword">fun </span><span class="identifier">applyDragAndDrop</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Start drag-and-drop</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="disable.html">disable</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">disable</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Disable drag-and-drop</p>
 </td>
 </tr>
 <tr>
@@ -41,7 +62,7 @@
 <p><a href="map-sets.html">mapSets</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">mapSets</span><span class="symbol">(</span><span class="identifier" id="ru.checka.easydnd.DragAndDropManager$mapSets(kotlin.collections.Set((ru.checka.easydnd.DragAndDropObject((ru.checka.easydnd.DragAndDropManager.S)))), kotlin.collections.Set((ru.checka.easydnd.DragAndDropObject((ru.checka.easydnd.DragAndDropManager.R)))), kotlin.Function1((ru.checka.easydnd.DragAndDropLocalConfig((ru.checka.easydnd.DragAndDropManager.S, ru.checka.easydnd.DragAndDropManager.R)), kotlin.Unit)))/newSenders">newSenders</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="../-drag-and-drop-object/index.html"><span class="identifier">DragAndDropObject</span></a><span class="symbol">&lt;</span><a href="index.html#S"><span class="identifier">S</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="ru.checka.easydnd.DragAndDropManager$mapSets(kotlin.collections.Set((ru.checka.easydnd.DragAndDropObject((ru.checka.easydnd.DragAndDropManager.S)))), kotlin.collections.Set((ru.checka.easydnd.DragAndDropObject((ru.checka.easydnd.DragAndDropManager.R)))), kotlin.Function1((ru.checka.easydnd.DragAndDropLocalConfig((ru.checka.easydnd.DragAndDropManager.S, ru.checka.easydnd.DragAndDropManager.R)), kotlin.Unit)))/newReceivers">newReceivers</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="../-drag-and-drop-object/index.html"><span class="identifier">DragAndDropObject</span></a><span class="symbol">&lt;</span><a href="index.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="ru.checka.easydnd.DragAndDropManager$mapSets(kotlin.collections.Set((ru.checka.easydnd.DragAndDropObject((ru.checka.easydnd.DragAndDropManager.S)))), kotlin.collections.Set((ru.checka.easydnd.DragAndDropObject((ru.checka.easydnd.DragAndDropManager.R)))), kotlin.Function1((ru.checka.easydnd.DragAndDropLocalConfig((ru.checka.easydnd.DragAndDropManager.S, ru.checka.easydnd.DragAndDropManager.R)), kotlin.Unit)))/init">init</span><span class="symbol">:</span>&nbsp;<a href="../-drag-and-drop-local-config/index.html"><span class="identifier">DragAndDropLocalConfig</span></a><span class="symbol">&lt;</span><a href="index.html#S"><span class="identifier">S</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<code><span class="keyword">fun </span><span class="identifier">mapSets</span><span class="symbol">(</span><span class="identifier" id="ru.checka.easydnd.DragAndDropManager$mapSets(kotlin.collections.Set((ru.checka.easydnd.DragAndDropObject((ru.checka.easydnd.DragAndDropManager.S)))), kotlin.collections.Set((ru.checka.easydnd.DragAndDropObject((ru.checka.easydnd.DragAndDropManager.R)))), ru.checka.easydnd.DragAndDropLocalConfig((ru.checka.easydnd.DragAndDropManager.S, ru.checka.easydnd.DragAndDropManager.R)))/newSenders">newSenders</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="../-drag-and-drop-object/index.html"><span class="identifier">DragAndDropObject</span></a><span class="symbol">&lt;</span><a href="index.html#S"><span class="identifier">S</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="ru.checka.easydnd.DragAndDropManager$mapSets(kotlin.collections.Set((ru.checka.easydnd.DragAndDropObject((ru.checka.easydnd.DragAndDropManager.S)))), kotlin.collections.Set((ru.checka.easydnd.DragAndDropObject((ru.checka.easydnd.DragAndDropManager.R)))), ru.checka.easydnd.DragAndDropLocalConfig((ru.checka.easydnd.DragAndDropManager.S, ru.checka.easydnd.DragAndDropManager.R)))/newReceivers">newReceivers</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html"><span class="identifier">Set</span></a><span class="symbol">&lt;</span><a href="../-drag-and-drop-object/index.html"><span class="identifier">DragAndDropObject</span></a><span class="symbol">&lt;</span><a href="index.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="ru.checka.easydnd.DragAndDropManager$mapSets(kotlin.collections.Set((ru.checka.easydnd.DragAndDropObject((ru.checka.easydnd.DragAndDropManager.S)))), kotlin.collections.Set((ru.checka.easydnd.DragAndDropObject((ru.checka.easydnd.DragAndDropManager.R)))), ru.checka.easydnd.DragAndDropLocalConfig((ru.checka.easydnd.DragAndDropManager.S, ru.checka.easydnd.DragAndDropManager.R)))/localConfig">localConfig</span><span class="symbol">:</span>&nbsp;<a href="../-drag-and-drop-local-config/index.html"><span class="identifier">DragAndDropLocalConfig</span></a><span class="symbol">&lt;</span><a href="index.html#S"><span class="identifier">S</span></a><span class="symbol">,</span>&nbsp;<a href="index.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Maps set of sender objects to receivers</p>
 </td>
 </tr>
