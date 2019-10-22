@@ -16,23 +16,46 @@
 <p><a href="-base-config/index.html">BaseConfig</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">BaseConfig</span><span class="symbol">&lt;</span><span class="identifier">S</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">, </span><span class="identifier">R</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">&gt;</span></code></td>
+<code><span class="keyword">abstract</span> <span class="keyword">class </span><span class="identifier">BaseConfig</span><span class="symbol">&lt;</span><span class="identifier">S</span><span class="symbol">, </span><span class="identifier">R</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-drag-and-drop-controller/index.html">DragAndDropController</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">DragAndDropController</span><span class="symbol">&lt;</span><span class="identifier">S</span><span class="symbol">, </span><span class="identifier">R</span><span class="symbol">&gt;</span></code>
+<p>Controller to manage drag-and-drop after initial dsl setup</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-drag-and-drop-controller-impl/index.html">DragAndDropControllerImpl</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">DragAndDropControllerImpl</span><span class="symbol">&lt;</span><span class="identifier">S</span><span class="symbol">, </span><span class="identifier">R</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-drag-and-drop-controller/index.html"><span class="identifier">DragAndDropController</span></a><span class="symbol">&lt;</span><a href="-drag-and-drop-controller-impl/index.html#S"><span class="identifier">S</span></a><span class="symbol">,</span>&nbsp;<a href="-drag-and-drop-controller-impl/index.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="-drag-and-drop-default-config/index.html">DragAndDropDefaultConfig</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">DragAndDropDefaultConfig</span><span class="symbol">&lt;</span><span class="identifier">S</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">, </span><span class="identifier">R</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-base-config/index.html"><span class="identifier">BaseConfig</span></a><span class="symbol">&lt;</span><a href="-drag-and-drop-default-config/index.html#S"><span class="identifier">S</span></a><span class="symbol">,</span>&nbsp;<a href="-drag-and-drop-default-config/index.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">DragAndDropDefaultConfig</span><span class="symbol">&lt;</span><span class="identifier">S</span><span class="symbol">, </span><span class="identifier">R</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-base-config/index.html"><span class="identifier">BaseConfig</span></a><span class="symbol">&lt;</span><a href="-drag-and-drop-default-config/index.html#S"><span class="identifier">S</span></a><span class="symbol">,</span>&nbsp;<a href="-drag-and-drop-default-config/index.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span></code>
 <p>Default configuration class</p>
 </td>
+</tr>
+<tr>
+<td>
+<p><a href="-drag-and-drop-dsl-facade/index.html">DragAndDropDslFacade</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">DragAndDropDslFacade</span><span class="symbol">&lt;</span><span class="identifier">S</span><span class="symbol">, </span><span class="identifier">R</span><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="-drag-and-drop-local-config/index.html">DragAndDropLocalConfig</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">DragAndDropLocalConfig</span><span class="symbol">&lt;</span><span class="identifier">S</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">, </span><span class="identifier">R</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-base-config/index.html"><span class="identifier">BaseConfig</span></a><span class="symbol">&lt;</span><a href="-drag-and-drop-local-config/index.html#S"><span class="identifier">S</span></a><span class="symbol">,</span>&nbsp;<a href="-drag-and-drop-local-config/index.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">DragAndDropLocalConfig</span><span class="symbol">&lt;</span><span class="identifier">S</span><span class="symbol">, </span><span class="identifier">R</span><span class="symbol">&gt;</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-base-config/index.html"><span class="identifier">BaseConfig</span></a><span class="symbol">&lt;</span><a href="-drag-and-drop-local-config/index.html#S"><span class="identifier">S</span></a><span class="symbol">,</span>&nbsp;<a href="-drag-and-drop-local-config/index.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span></code>
 <p>Additional configuration which can override default behavior of <a href="-drag-and-drop-default-config/index.html">DragAndDropDefaultConfig</a></p>
 </td>
 </tr>
@@ -41,7 +64,7 @@
 <p><a href="-drag-and-drop-manager/index.html">DragAndDropManager</a></p>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">DragAndDropManager</span><span class="symbol">&lt;</span><span class="identifier">S</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">, </span><span class="identifier">R</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">class </span><span class="identifier">DragAndDropManager</span><span class="symbol">&lt;</span><span class="identifier">S</span><span class="symbol">, </span><span class="identifier">R</span><span class="symbol">&gt;</span></code>
 <p>Main class of DragAndDrop</p>
 </td>
 </tr>
@@ -50,18 +73,16 @@
 <p><a href="-drag-and-drop-object/index.html">DragAndDropObject</a></p>
 </td>
 <td>
-<code><span class="keyword">interface </span><span class="identifier">DragAndDropObject</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">DragAndDropObject</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>Basic interface for DragAndDrop</p>
 </td>
 </tr>
 <tr>
 <td>
-<p><a href="-drag-assignment/index.html">DragAssignment</a></p>
+<p><a href="-dsl-set-config/index.html">DslSetConfig</a></p>
 </td>
 <td>
-<code><span class="keyword">interface </span><span class="identifier">DragAssignment</span></code>
-<p>Every DragAndDrop receiver and sender must implement this interface. Property <a href="-drag-assignment/tag.html">tag</a> must be unique!</p>
-</td>
+<code><span class="keyword">class </span><span class="identifier">DslSetConfig</span><span class="symbol">&lt;</span><span class="identifier">S</span><span class="symbol">, </span><span class="identifier">R</span><span class="symbol">&gt;</span></code></td>
 </tr>
 <tr>
 <td>
@@ -106,7 +127,7 @@
 <p><a href="enable-drag-and-drop.html">enableDragAndDrop</a></p>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">S</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">, </span><span class="identifier">R</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">&gt;</span> <span class="identifier">enableDragAndDrop</span><span class="symbol">(</span><span class="identifier" id="ru.checka.easydnd$enableDragAndDrop(kotlin.Function1((ru.checka.easydnd.DragAndDropManager((ru.checka.easydnd.enableDragAndDrop.S, ru.checka.easydnd.enableDragAndDrop.R)), kotlin.Unit)))/init">init</span><span class="symbol">:</span>&nbsp;<a href="-drag-and-drop-manager/index.html"><span class="identifier">DragAndDropManager</span></a><span class="symbol">&lt;</span><a href="enable-drag-and-drop.html#S"><span class="identifier">S</span></a><span class="symbol">,</span>&nbsp;<a href="enable-drag-and-drop.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<code><span class="keyword">fun </span><span class="symbol">&lt;</span><span class="identifier">S</span><span class="symbol">, </span><span class="identifier">R</span><span class="symbol">&gt;</span> <span class="identifier">enableDragAndDrop</span><span class="symbol">(</span><span class="identifier" id="ru.checka.easydnd$enableDragAndDrop(kotlin.Function1((ru.checka.easydnd.DragAndDropDslFacade((ru.checka.easydnd.enableDragAndDrop.S, ru.checka.easydnd.enableDragAndDrop.R)), kotlin.Unit)))/init">init</span><span class="symbol">:</span>&nbsp;<a href="-drag-and-drop-dsl-facade/index.html"><span class="identifier">DragAndDropDslFacade</span></a><span class="symbol">&lt;</span><a href="enable-drag-and-drop.html#S"><span class="identifier">S</span></a><span class="symbol">,</span>&nbsp;<a href="enable-drag-and-drop.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span><span class="symbol">.</span><span class="symbol">(</span><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="-drag-and-drop-controller/index.html"><span class="identifier">DragAndDropController</span></a><span class="symbol">&lt;</span><a href="enable-drag-and-drop.html#S"><span class="identifier">S</span></a><span class="symbol">,</span>&nbsp;<a href="enable-drag-and-drop.html#R"><span class="identifier">R</span></a><span class="symbol">&gt;</span></code>
 <p>Creates <a href="-drag-and-drop-manager/index.html">DragAndDropManager</a> and configure it</p>
 </td>
 </tr>

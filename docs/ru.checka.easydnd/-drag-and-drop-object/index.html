@@ -5,11 +5,25 @@
 <link rel="stylesheet" href="../../style.css">
 </HEAD>
 <BODY>
-<a href="../../index.html">easydnd</a>&nbsp;/&nbsp;<a href="../index.html">ru.checka.easydnd</a>&nbsp;/&nbsp;<a href="./index.html">DragAndDropObject</a><br/>
+<a href="../index.html">easydnd</a>&nbsp;/&nbsp;<a href="../index.html">ru.checka.easydnd</a>&nbsp;/&nbsp;<a href="./index.html">DragAndDropObject</a><br/>
 <br/>
 <h1>DragAndDropObject</h1>
-<code><span class="keyword">interface </span><span class="identifier">DragAndDropObject</span><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<span class="identifier">T</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-drag-assignment/index.html"><span class="identifier">DragAssignment</span></a><span class="symbol">&gt;</span></code>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">DragAndDropObject</span><span class="symbol">&lt;</span><span class="identifier">T</span><span class="symbol">&gt;</span></code>
 <p>Basic interface for DragAndDrop</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">DragAndDropObject</span><span class="symbol">(</span><span class="identifier" id="ru.checka.easydnd.DragAndDropObject$<init>(android.view.View, ru.checka.easydnd.DragAndDropObject.T)/view">view</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a><span class="symbol">, </span><span class="identifier" id="ru.checka.easydnd.DragAndDropObject$<init>(android.view.View, ru.checka.easydnd.DragAndDropObject.T)/assignedObject">assignedObject</span><span class="symbol">:</span>&nbsp;<a href="index.html#T"><span class="identifier">T</span></a><span class="symbol">)</span></code>
+<p>Basic interface for DragAndDrop</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3>Properties</h3>
 <table>
 <tbody>
@@ -18,16 +32,23 @@
 <p><a href="assigned-object.html">assignedObject</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">assignedObject</span><span class="symbol">: </span><a href="index.html#T"><span class="identifier">T</span></a></code>
+<code><span class="keyword">val </span><span class="identifier">assignedObject</span><span class="symbol">: </span><a href="index.html#T"><span class="identifier">T</span></a></code>
 <p>Associated object with additional information</p>
 </td>
+</tr>
+<tr>
+<td>
+<p><a href="tag.html">tag</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">tag</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
 </tr>
 <tr>
 <td>
 <p><a href="view.html">view</a></p>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">val </span><span class="identifier">view</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a></code>
+<code><span class="keyword">val </span><span class="identifier">view</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a></code>
 <p>View which will be dragged</p>
 </td>
 </tr>
