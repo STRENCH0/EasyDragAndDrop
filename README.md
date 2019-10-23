@@ -14,7 +14,7 @@ You can also use infix form of function!
 ```kotlin
 textView2 assign Assignment("textview2")
 ```
-Or you can do it latter (see point 4b).
+Or you can do it later (see point 4b).
 
 3. Use enableDragAndDrop function and define callbacks using default (optional):
 ```kotlin
@@ -64,10 +64,10 @@ To configure drag-and-drop do next steps:
 2. Init default config.
 3. Create sets and optionally LocalConfig for each (see point 2 of previous topic).
 4. Use mapSets method for all desired mappings.
-5. !IMPORTANT! Use applyDragAndDrop() method.
+5. Call applyDragAndDrop() method to enable drag-and-drop.
 
 # Installation
-1. Add it in your root build.gradle at the end of repositories:
+1. Add repository into the root build.gradle file:
 ```groovy
 allprojects {
   repositories {
