@@ -1,9 +1,9 @@
 [![](https://jitpack.io/v/STRENCH0/EasyDragAndDrop.svg)](https://jitpack.io/#STRENCH0/EasyDragAndDrop)
 # Briefing
 Do you want to implement In-App drag and drop in your android kotlin application? It's very simple! Here is 5 (or less) steps to do it with DSL using easy dnd (if you don't like DSL skip it):
-1. Create class which will store all transfering data:
+1. Create class which will store all transfering data or use some kotlin type:
 ```kotlin
-data class Assignment(val tag: String) : DragAssignment
+data class Assignment(val tag: String)
 ```
 2. Create sets with sender and receiver objects:
 ```kotlin
@@ -36,14 +36,14 @@ You can create as many mappings as you want. If some mapping must have unique be
 ```kotlin
 enableDragAndDrop<Assignment, Assignment> {
     ...
-    mapSets(sendersSet, receiversSet){
+    mapSets(sendersSet, receiversSet) {
         onDragEntered {
             //some action when sender object covers receiver object
         }
     }
 }
 ```
-4b. There is also a new way to create mappings. Map senders to receivers right in the DSL!
+4b. There is also a new way to create mappings. You can define mapping right here in the DSL!
 ```kotlin
 mapSets {
     textView assignSender Assignment("textview")
