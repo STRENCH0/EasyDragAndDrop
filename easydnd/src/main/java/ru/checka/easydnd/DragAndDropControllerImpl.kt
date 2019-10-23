@@ -14,8 +14,8 @@ class DragAndDropControllerImpl<S, R>(
             localConfig = DragAndDropLocalConfig<S, R>()
             localConfig.init()
         }
-        manager.applyDragAndDrop()
         manager.mapSets(newSenders, newReceivers, localConfig)
+        manager.applyDragAndDrop()
     }
 
     override fun disable() = manager.disable()
