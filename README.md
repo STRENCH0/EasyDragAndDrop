@@ -14,7 +14,8 @@ You can also use infix form of function!
 ```kotlin
 textView2 assign Assignment("textview2")
 ```
-Or you can do it latter
+Or you can do it latter (see point 4b).
+
 3. Use enableDragAndDrop function and define callbacks using default (optional):
 ```kotlin
 enableDragAndDrop<Assignment, Assignment> {
