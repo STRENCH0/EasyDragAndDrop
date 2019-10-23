@@ -79,6 +79,6 @@ allprojects {
 2. Add the dependency
 ```groovy
 dependencies {
-        implementation 'com.github.STRENCH0:EasyDragAndDrop:2.0'
+        implementation 'com.github.STRENCH0:EasyDragAndDrop:2.0.1'
 }
 ```
