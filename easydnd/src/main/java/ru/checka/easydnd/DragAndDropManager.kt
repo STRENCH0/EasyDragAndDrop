@@ -11,10 +11,14 @@ import android.view.View
  */
 class DragAndDropManager<S, R> {
 
+    companion object {
+        private const val DRAG_AND_DROP_CLIP = "DragAndDrop"
+    }
+
     private var senders: MutableSet<DragAndDropObject<S>> = mutableSetOf()
     private var receivers: MutableSet<DragAndDropObject<R>> = mutableSetOf()
-    private val receiverSenderMap = mutableMapOf<String, MutableSet<String>>()
-    private val configs = SenderToReceiverActions<DragAndDropLocalConfig<S, R>>()
+    private val configs =
+        SenderToReceiverActions<String, String, DragAndDropLocalConfigInternal<S, R>>()
 
     val defaultConfig: DragAndDropDefaultConfig<S, R> = DragAndDropDefaultConfig()
     /**
@@ -32,26 +36,15 @@ class DragAndDropManager<S, R> {
         //save all mappings
         senders.addAll(newSenders)
         receivers.addAll(newReceivers)
-        for (receiver in newReceivers) {
-            for (sender in newSenders) {
-                val receiverTag = receiver.tag
-                val senderTag = sender.tag
-                receiverSenderMap
-                    .getOrPut(receiverTag, ::mutableSetOf)
-                    .add(senderTag)
-            }
-        }
-        //save custom config
-        if (localConfig != null) {
-            for (sender in newSenders) {
-                val senderTag = sender.tag
-                for (receiver in newReceivers) {
-                    val receiverTag = receiver.tag
-                    configs[senderTag, receiverTag] = localConfig
-                }
-            }
-        }
 
+        for (sender in newSenders) {
+            val senderTag = sender.tag
+            for (receiver in newReceivers) {
+                val receiverTag = receiver.tag
+                configs[receiverTag, senderTag] =
+                    DragAndDropLocalConfigInternal(localConfig, defaultConfig)
+            }
+        }
     }
 
     /**
@@ -93,7 +86,7 @@ class DragAndDropManager<S, R> {
         val sbBuilder = defaultConfig.shadowBuilder
 
         val action: (View, S, String) -> Boolean = { view, obj, tag ->
-            val item = ClipData.Item("DragAndDrop" as CharSequence)
+            val item = ClipData.Item(DRAG_AND_DROP_CLIP as CharSequence)
             val dragData = ClipData(tag, arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN), item)
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 view.startDragAndDrop(dragData, sbBuilder(view, obj), null, dragFlags)
@@ -129,9 +122,6 @@ class DragAndDropManager<S, R> {
         }
 
         private fun handleActionDragEnd(view: View) {
-            val action = configs[lastTag!!, view.tag as String]?.onDragExited
-                ?: defaultConfig.onDragExited
-            action?.invoke(view)
             senders
                 .find { it.tag == lastTag }
                 ?.let {
@@ -149,59 +139,39 @@ class DragAndDropManager<S, R> {
         }
 
         private fun handleActionDragExit(event: DragEvent, view: View) {
-            val sender =
-                senders.find { event.clipDescription.label == it.tag }
-            val receiver = receivers.find { view.tag == it.tag }
-            if (checkSenderReceiverMapping(sender, receiver)) {
-                val localConfig = configs[sender!!.tag, receiver!!.tag]
-                localConfig?.onDragExited?.invoke(view)
-                    ?: defaultConfig.onDragExited?.invoke(view)
+            val receiverTag = view.tag
+            if (receiverTag is String) {
+                val config =
+                    configs[receiverTag, event.clipDescription.label.toString()]
+                config?.onDragExited?.invoke(view)
             }
         }
 
         private fun handleActionDragEnter(event: DragEvent, view: View) {
-            val sender =
-                senders.find { event.clipDescription.label == it.tag }
-            val receiver = receivers.find { view.tag == it.tag }
-            if (checkSenderReceiverMapping(sender, receiver)) {
-                val localConfig = configs[sender!!.tag, receiver!!.tag]
-                localConfig?.onDragEntered?.invoke(view)
-                    ?: defaultConfig.onDragEntered?.invoke(view)
+            val receiverTag = view.tag
+            if (receiverTag is String) {
+                val config =
+                    configs[receiverTag, event.clipDescription.label.toString()]
+                config?.onDragEntered?.invoke(view)
             }
         }
 
         private fun handleActionDrop(event: DragEvent, view: View) {
-            val sender =
-                senders.find { event.clipDescription.label == it.tag }
-            val receiver = receivers.find { view.tag == it.tag }
-            if (checkSenderReceiverMapping(sender, receiver)) {
-                val localConfig = configs[sender!!.tag, receiver!!.tag]
-                localConfig?.onDropped?.invoke(
-                    sender.assignedObject,
-                    receiver.assignedObject
-                ) ?: defaultConfig
-                    .onDropped
-                    ?.invoke(sender.assignedObject, receiver.assignedObject)
+            val receiverTag = view.tag
+            if (receiverTag is String) {
+                val config = configs[receiverTag, event.clipDescription.label.toString()]
+                config
+                    ?.onDropped
+                    ?.let { onDropped ->
+                        val sender = senders.find { event.clipDescription.label == it.tag }
+                        val receiver = receivers.find { receiverTag == it.tag }
+                        if (sender != null && receiver != null) {
+                            onDropped.invoke(sender.assignedObject, receiver.assignedObject)
+                        }
+                    }
             }
         }
 
-        /**
-         * Checks defaultConfig, sender and receiver on null and (sender -> receiver) mapping existing
-         */
-        private fun checkSenderReceiverMapping(
-            sender: DragAndDropObject<S>?,
-            receiver: DragAndDropObject<R>?
-        ): Boolean {
-            if (sender == null || receiver == null)
-                return false
-            //if object drops not on self or it's enabled
-            if (defaultConfig.selfDrop || sender.tag != receiver.tag) {
-                return receiverSenderMap[receiver.tag]
-                    ?.contains(sender.tag)
-                    ?: false
-            }
-            return false
-        }
 
     }
 

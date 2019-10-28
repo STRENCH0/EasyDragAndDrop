@@ -3,23 +3,23 @@ package ru.checka.easydnd
 import android.view.View
 
 @ConfigMarker
-abstract class BaseConfig<S, R> internal constructor(){
+abstract class BaseConfig<S, R> internal constructor() {
 
     /**
      * Calls when dropping is performed. Sender and Receiver objects of type [DragAndDropObject] will be passed as params
      */
-    var onDropped: ((sender: S, receiver: R) -> Unit)? = null
+    open var onDropped: ((sender: S, receiver: R) -> Unit)? = null
 
 
     /**
      * Calls when drag object covers receiver's area. Receiver [View] will be passed as param
      */
-    var onDragEntered: ((View) -> Unit)? = null
+    open var onDragEntered: ((View) -> Unit)? = null
 
     /**
      * Calls when drag object stop covers receiver's area. Receiver [View] will be passed as param
      */
-    var onDragExited: ((View) -> Unit)? = null
+    open var onDragExited: ((View) -> Unit)? = null
 
     //function setters
 
@@ -49,7 +49,7 @@ abstract class BaseConfig<S, R> internal constructor(){
 /**
  * Default configuration class
  */
-class DragAndDropDefaultConfig<S, R> : BaseConfig<S, R>() {
+open class DragAndDropDefaultConfig<S, R> : BaseConfig<S, R>() {
 
     /**
      * Calls when start dragging sender. Sender [DragAndDropObject] will be passed as param
@@ -74,14 +74,15 @@ class DragAndDropDefaultConfig<S, R> : BaseConfig<S, R>() {
     /**
      * Override default [View.DragShadowBuilder]
      */
-    var shadowBuilder: (View, S) -> View.DragShadowBuilder = { view, _ -> DefaultShadowBuilder(view) }
+    var shadowBuilder: (View, S) -> View.DragShadowBuilder =
+        { view, _ -> DefaultShadowBuilder(view) }
 
     /**
      * Drag flags of [View]. Use flags starting with prefix DRAG_FLAG_
      */
     var dragFlags: Int = 0
 
-   //function setters
+    //function setters
 
     /**
      * DSL-like method for variable [onSenderDragStart]
@@ -89,6 +90,7 @@ class DragAndDropDefaultConfig<S, R> : BaseConfig<S, R>() {
     fun onSenderDragStart(action: (DragAndDropObject<S>) -> Unit) {
         this.onSenderDragStart = action
     }
+
     /**
      * DSL-like method for variable [onSenderDragStop]
      */
@@ -102,6 +104,31 @@ class DragAndDropDefaultConfig<S, R> : BaseConfig<S, R>() {
  * Additional configuration which can override default behavior of [DragAndDropDefaultConfig]
  */
 class DragAndDropLocalConfig<S, R> : BaseConfig<S, R>()
+
+internal class DragAndDropLocalConfigInternal<S, R>(
+    private val local: DragAndDropLocalConfig<S, R>?,
+    private val default: DragAndDropDefaultConfig<S, R>
+): BaseConfig<S, R>() {
+
+    override var onDragEntered: ((View) -> Unit)?
+        get() = local?.onDragEntered ?: default.onDragEntered
+        set(value) {
+            super.onDragEntered = value
+        }
+
+    override var onDragExited: ((View) -> Unit)?
+        get() = local?.onDragExited ?: default.onDragExited
+        set(value) {
+            super.onDragExited = value
+        }
+
+    override var onDropped: ((sender: S, receiver: R) -> Unit)?
+        get() = local?.onDropped ?: default.onDropped
+        set(value) {
+            super.onDropped = value
+        }
+}
+
 
 
 /**

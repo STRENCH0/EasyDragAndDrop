@@ -2,11 +2,11 @@ package ru.checka.easydnd
 
 import android.view.View
 
-internal class SenderToReceiverActions<A> {
+internal class SenderToReceiverActions<K, V, T> {
 
-    private val map = mutableMapOf<String, MutableMap<String, A>>()
+    private val map = mutableMapOf<K, MutableMap<V, T>>()
 
-    operator fun get(senderTag: String, receiverTag: String): A? {
+    operator fun get(receiverTag: K, senderTag: V): T? {
         val sendersAction = map[receiverTag]
         if (sendersAction != null) {
             return sendersAction[senderTag]
@@ -14,7 +14,7 @@ internal class SenderToReceiverActions<A> {
         return null
     }
 
-    operator fun set(senderTag: String, receiverTag: String, config: A) {
+    operator fun set(receiverTag: K, senderTag: V, config: T) {
         val sendersAction = map[receiverTag]
         if (sendersAction == null) {
             map[receiverTag] = mutableMapOf()
