@@ -1,6 +1,7 @@
 package ru.checka.easydnd
 
 import android.view.View
+import java.lang.Exception
 
 internal class SenderToReceiverActions<K, V, T> {
 
@@ -35,3 +36,4 @@ internal fun <T> DragAndDropObject<T>.setOnLongClickListener(action: (View, T, S
     this.view.setOnLongClickListener { v -> action(v, this.assignedObject, tag) }
 }
 
+class OverridingSenderAssignmentException : Exception("Sender must have only 1 assigned object!")

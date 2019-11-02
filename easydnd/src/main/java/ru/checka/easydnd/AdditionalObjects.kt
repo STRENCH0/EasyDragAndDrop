@@ -16,6 +16,11 @@ data class DragAndDropObject<T>(
      */
     val assignedObject: T
 ) {
-    val tag = UUID.randomUUID().toString()
+
+    val tag: String = view.tag?.toString() ?: UUID.randomUUID().toString()
+
+    init {
+        view.tag = tag
+    }
 }
 

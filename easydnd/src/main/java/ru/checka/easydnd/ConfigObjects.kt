@@ -21,6 +21,8 @@ abstract class BaseConfig<S, R> internal constructor() {
      */
     open var onDragExited: ((View) -> Unit)? = null
 
+    open var onDragLocation: ((View, Float, Float) -> Unit)? = null
+
     //function setters
 
     /**
@@ -42,6 +44,10 @@ abstract class BaseConfig<S, R> internal constructor() {
      */
     fun onDragExited(action: (View) -> Unit) {
         this.onDragExited = action
+    }
+
+    fun onDragLocation(action: (View, Float, Float) -> Unit) {
+        this.onDragLocation = action
     }
 
 }
@@ -107,7 +113,9 @@ class DragAndDropLocalConfig<S, R> : BaseConfig<S, R>()
 
 internal class DragAndDropLocalConfigInternal<S, R>(
     private val local: DragAndDropLocalConfig<S, R>?,
-    private val default: DragAndDropDefaultConfig<S, R>
+    private val default: DragAndDropDefaultConfig<S, R>,
+    val sender: S,
+    val receiver: R
 ): BaseConfig<S, R>() {
 
     override var onDragEntered: ((View) -> Unit)?
@@ -127,6 +135,13 @@ internal class DragAndDropLocalConfigInternal<S, R>(
         set(value) {
             super.onDropped = value
         }
+
+    override var onDragLocation: ((View, Float, Float) -> Unit)?
+        get() = local?.onDragLocation ?: default.onDragLocation
+        set(value) {
+            super.onDragLocation = value
+        }
+
 }
 
 
