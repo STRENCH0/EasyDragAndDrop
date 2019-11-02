@@ -109,14 +109,38 @@ open class DragAndDropDefaultConfig<S, R> : BaseConfig<S, R>() {
 /**
  * Additional configuration which can override default behavior of [DragAndDropDefaultConfig]
  */
-class DragAndDropLocalConfig<S, R> : BaseConfig<S, R>()
+class DragAndDropLocalConfig<S, R> : BaseConfig<S, R>() {
+
+    fun callSuper(vararg args: Any) {
+        when (Thread.currentThread().stackTrace[5].methodName) {
+            "handleActionDragEnter" -> default?.onDragEntered?.invoke(args[0] as View)
+            "handleActionDragExit" -> default?.onDragExited?.invoke(args[0] as View)
+            "handleActionDrop" -> default?.onDropped?.invoke(args[0] as S, args[1] as R)
+            "handleActionDragLocation" -> default?.onDragLocation?.invoke(
+                args[0] as View,
+                args[1] as Float,
+                args[2] as Float
+            )
+        }
+    }
+
+    internal fun provideDefaultConfigForUpCall(default: DragAndDropDefaultConfig<S, R>) {
+        this.default = default
+    }
+
+    private var default: DragAndDropDefaultConfig<S, R>? = null
+}
 
 internal class DragAndDropLocalConfigInternal<S, R>(
     private val local: DragAndDropLocalConfig<S, R>?,
     private val default: DragAndDropDefaultConfig<S, R>,
     val sender: S,
     val receiver: R
-): BaseConfig<S, R>() {
+) : BaseConfig<S, R>() {
+
+    init {
+        local?.provideDefaultConfigForUpCall(default)
+    }
 
     override var onDragEntered: ((View) -> Unit)?
         get() = local?.onDragEntered ?: default.onDragEntered
@@ -143,7 +167,6 @@ internal class DragAndDropLocalConfigInternal<S, R>(
         }
 
 }
-
 
 
 /**
