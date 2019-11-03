@@ -11,8 +11,9 @@ interface DragAndDropController<S, R> {
         init: (DragAndDropLocalConfig<S, R>.() -> Unit)? = null
     )
 
+    fun mapSets(init: DslSetConfig<S, R>.() -> Unit)
+
     fun disable()
 
     fun enable()
-
 }

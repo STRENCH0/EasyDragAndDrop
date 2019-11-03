@@ -18,6 +18,12 @@ class DragAndDropControllerImpl<S, R>(
         manager.applyDragAndDrop()
     }
 
+    override fun mapSets(init: (DslSetConfig<S, R>.() -> Unit)) {
+        val dslSetConfig = DslSetConfig<S, R>()
+        dslSetConfig.init()
+        mapSets(dslSetConfig.senders, dslSetConfig.receivers, dslSetConfig.localConfigInit)
+    }
+
     override fun disable() = manager.disable()
 
     override fun enable() = manager.applyDragAndDrop()
