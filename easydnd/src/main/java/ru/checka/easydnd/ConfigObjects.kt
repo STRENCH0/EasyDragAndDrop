@@ -1,6 +1,7 @@
 package ru.checka.easydnd
 
 import android.view.View
+import java.lang.Exception
 
 @ConfigMarker
 abstract class BaseConfig<S, R> internal constructor() {
@@ -111,16 +112,20 @@ open class DragAndDropDefaultConfig<S, R> : BaseConfig<S, R>() {
  */
 class DragAndDropLocalConfig<S, R> : BaseConfig<S, R>() {
 
-    fun callSuper(vararg args: Any) {
+    fun callSuper(view: View, x: Float = 0f, y: Float = 0f) {
         when (Thread.currentThread().stackTrace[5].methodName) {
-            "handleActionDragEnter" -> default?.onDragEntered?.invoke(args[0] as View)
-            "handleActionDragExit" -> default?.onDragExited?.invoke(args[0] as View)
-            "handleActionDrop" -> default?.onDropped?.invoke(args[0] as S, args[1] as R)
-            "handleActionDragLocation" -> default?.onDragLocation?.invoke(
-                args[0] as View,
-                args[1] as Float,
-                args[2] as Float
-            )
+            "handleActionDragEnter" -> default?.onDragEntered?.invoke(view)
+            "handleActionDragExit" -> default?.onDragExited?.invoke(view)
+            "handleActionDragLocation" -> default?.onDragLocation?.invoke(view, x, y)
+            else -> throw WrongArgumentsException()
+        }
+    }
+
+    fun callSuper(sender: S, receiver: R) {
+        if (Thread.currentThread().stackTrace[5].methodName == "handleActionDrop") {
+            default?.onDropped?.invoke(sender, receiver)
+        } else {
+            throw WrongArgumentsException()
         }
     }
 
@@ -168,6 +173,7 @@ internal class DragAndDropLocalConfigInternal<S, R>(
 
 }
 
+class WrongArgumentsException(): Exception("Unable to cast arguments")
 
 /**
  * User actions
