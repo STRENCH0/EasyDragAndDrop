@@ -1,6 +1,7 @@
 package ru.checka.easydnd
 
 import android.view.View
+import java.lang.Exception
 
 @ConfigMarker
 abstract class BaseConfig<S, R> internal constructor() {
@@ -109,14 +110,42 @@ open class DragAndDropDefaultConfig<S, R> : BaseConfig<S, R>() {
 /**
  * Additional configuration which can override default behavior of [DragAndDropDefaultConfig]
  */
-class DragAndDropLocalConfig<S, R> : BaseConfig<S, R>()
+class DragAndDropLocalConfig<S, R> : BaseConfig<S, R>() {
+
+    fun callSuper(view: View, x: Float = 0f, y: Float = 0f) {
+        when (Thread.currentThread().stackTrace[5].methodName) {
+            "handleActionDragEnter" -> default?.onDragEntered?.invoke(view)
+            "handleActionDragExit" -> default?.onDragExited?.invoke(view)
+            "handleActionDragLocation" -> default?.onDragLocation?.invoke(view, x, y)
+            else -> throw WrongArgumentsException()
+        }
+    }
+
+    fun callSuper(sender: S, receiver: R) {
+        if (Thread.currentThread().stackTrace[5].methodName == "handleActionDrop") {
+            default?.onDropped?.invoke(sender, receiver)
+        } else {
+            throw WrongArgumentsException()
+        }
+    }
+
+    internal fun provideDefaultConfigForUpCall(default: DragAndDropDefaultConfig<S, R>) {
+        this.default = default
+    }
+
+    private var default: DragAndDropDefaultConfig<S, R>? = null
+}
 
 internal class DragAndDropLocalConfigInternal<S, R>(
     private val local: DragAndDropLocalConfig<S, R>?,
     private val default: DragAndDropDefaultConfig<S, R>,
     val sender: S,
     val receiver: R
-): BaseConfig<S, R>() {
+) : BaseConfig<S, R>() {
+
+    init {
+        local?.provideDefaultConfigForUpCall(default)
+    }
 
     override var onDragEntered: ((View) -> Unit)?
         get() = local?.onDragEntered ?: default.onDragEntered
@@ -144,7 +173,7 @@ internal class DragAndDropLocalConfigInternal<S, R>(
 
 }
 
-
+class WrongArgumentsException(): Exception("Unable to cast arguments")
 
 /**
  * User actions
