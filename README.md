@@ -33,12 +33,13 @@ enableDragAndDrop<Assignment, Assignment> {
     mapSets(sendersSet, receiversSet)
 }
 ```
-You can create as many mappings as you want. If some mapping must have unique behaviour just write it and it will override default methods:
+You can create as many mappings as you want. If some mapping must have unique behaviour just write it and it will override default methods. Optionally you can also call default method using callSuper() function.
 ```kotlin
 enableDragAndDrop<Assignment, Assignment> {
     ...
     mapSets(sendersSet, receiversSet) {
         onDragEntered {
+            callSuper(it)
             //some action when sender object covers receiver object
         }
     }
