@@ -3,7 +3,6 @@ package ru.checka.easydnd
 import android.view.View
 import java.lang.Exception
 
-@ConfigMarker
 abstract class BaseConfig<S, R> internal constructor() {
 
     /**
@@ -56,7 +55,26 @@ abstract class BaseConfig<S, R> internal constructor() {
 /**
  * Default configuration class
  */
-open class DragAndDropDefaultConfig<S, R> : BaseConfig<S, R>() {
+@ConfigMarker
+open class DragAndDropDefaultConfig<S, R> {
+
+    /**
+     * Calls when dropping is performed. Sender and Receiver objects of type [DragAndDropObject] will be passed as params
+     */
+    var onDropped: ((sender: S, receiver: R) -> Unit)? = null
+
+
+    /**
+     * Calls when drag object covers receiver's area. Receiver [View] will be passed as param
+     */
+    var onDragEntered: ((View) -> Unit)? = null
+
+    /**
+     * Calls when drag object stop covers receiver's area. Receiver [View] will be passed as param
+     */
+    var onDragExited: ((View) -> Unit)? = null
+
+    var onDragLocation: ((View, Float, Float) -> Unit)? = null
 
     /**
      * Calls when start dragging sender. Sender [DragAndDropObject] will be passed as param
@@ -67,11 +85,6 @@ open class DragAndDropDefaultConfig<S, R> : BaseConfig<S, R>() {
      * Calls when stop dragging sender. Sender [DragAndDropObject] will be passed as param
      */
     var onSenderDragStop: ((DragAndDropObject<S>) -> Unit)? = null
-
-    /**
-     * Dropping on self
-     */
-    var selfDrop: Boolean = false
 
     /**
      * Action on which Drag and Drop action starts
@@ -105,75 +118,156 @@ open class DragAndDropDefaultConfig<S, R> : BaseConfig<S, R>() {
         this.onSenderDragStop = action
     }
 
+    /**
+     * DSL-like method for variable [onDropped]
+     */
+    fun onDropped(action: (sender: S, receiver: R) -> Unit) {
+        this.onDropped = action
+    }
+
+    /**
+     * DSL-like method for variable [onDragEntered]
+     */
+    fun onDragEntered(action: (View) -> Unit) {
+        this.onDragEntered = action
+    }
+
+    /**
+     * DSL-like method for variable [onDragExited]
+     */
+    fun onDragExited(action: (View) -> Unit) {
+        this.onDragExited = action
+    }
+
+    fun onDragLocation(action: (View, Float, Float) -> Unit) {
+        this.onDragLocation = action
+    }
+
+
 }
 
 /**
  * Additional configuration which can override default behavior of [DragAndDropDefaultConfig]
  */
-class DragAndDropLocalConfig<S, R> : BaseConfig<S, R>() {
+@ConfigMarker
+class DragAndDropLocalConfig<S, R> {
 
-    fun callSuper(view: View, x: Float = 0f, y: Float = 0f) {
-        when (Thread.currentThread().stackTrace[5].methodName) {
-            "handleActionDragEnter" -> default?.onDragEntered?.invoke(view)
-            "handleActionDragExit" -> default?.onDragExited?.invoke(view)
-            "handleActionDragLocation" -> default?.onDragLocation?.invoke(view, x, y)
-            else -> throw WrongArgumentsException()
-        }
+    /**
+     * Calls when dropping is performed. Sender and Receiver objects of type [DragAndDropObject] will be passed as params
+     */
+    var onDropped: (ChildOnDropped<S, R>.(sender: S, receiver: R) -> Unit)? = null
+
+
+    /**
+     * Calls when drag object covers receiver's area. Receiver [View] will be passed as param
+     */
+    var onDragEntered: (ChildOnDrag.(View) -> Unit)? = null
+
+    /**
+     * Calls when drag object stop covers receiver's area. Receiver [View] will be passed as param
+     */
+    var onDragExited: (ChildOnDrag.(View) -> Unit)? = null
+
+    var onDragLocation: (ChildOnDragLocation.(View, Float, Float) -> Unit)? = null
+
+    //function setters
+
+    /**
+     * DSL-like method for variable [onDropped]
+     */
+    fun onDropped(action: ChildOnDropped<S, R>.(sender: S, receiver: R) -> Unit) {
+        this.onDropped = action
     }
 
-    fun callSuper(sender: S, receiver: R) {
-        if (Thread.currentThread().stackTrace[5].methodName == "handleActionDrop") {
-            default?.onDropped?.invoke(sender, receiver)
-        } else {
-            throw WrongArgumentsException()
-        }
+    /**
+     * DSL-like method for variable [onDragEntered]
+     */
+    fun onDragEntered(action: ChildOnDrag.(View) -> Unit) {
+        this.onDragEntered = action
     }
 
-    internal fun provideDefaultConfigForUpCall(default: DragAndDropDefaultConfig<S, R>) {
-        this.default = default
+    /**
+     * DSL-like method for variable [onDragExited]
+     */
+    fun onDragExited(action: ChildOnDrag.(View) -> Unit) {
+        this.onDragExited = action
     }
 
-    private var default: DragAndDropDefaultConfig<S, R>? = null
+    fun onDragLocation(action: ChildOnDragLocation.(View, Float, Float) -> Unit) {
+        this.onDragLocation = action
+    }
+
 }
 
-internal class DragAndDropLocalConfigInternal<S, R>(
+
+internal class DragAndDropInternalConfig<S, R>(
     private val local: DragAndDropLocalConfig<S, R>?,
     private val default: DragAndDropDefaultConfig<S, R>,
     val sender: S,
     val receiver: R
-) : BaseConfig<S, R>() {
+) {
 
-    init {
-        local?.provideDefaultConfigForUpCall(default)
+    private val onDroppedChild = object : ChildOnDropped<S, R> {
+        override fun callSuper(sender: S, receiver: R) {
+            default.onDropped?.invoke(sender, receiver)
+        }
     }
 
-    override var onDragEntered: ((View) -> Unit)?
-        get() = local?.onDragEntered ?: default.onDragEntered
-        set(value) {
-            super.onDragEntered = value
+    private val onDragEnteredChild = object : ChildOnDrag {
+        override fun callSuper(view: View) {
+            default.onDragEntered?.invoke(view)
         }
+    }
 
-    override var onDragExited: ((View) -> Unit)?
-        get() = local?.onDragExited ?: default.onDragExited
-        set(value) {
-            super.onDragExited = value
+    private val onDragExitedChild = object : ChildOnDrag {
+        override fun callSuper(view: View) {
+            default.onDragExited?.invoke(view)
         }
+    }
 
-    override var onDropped: ((sender: S, receiver: R) -> Unit)?
-        get() = local?.onDropped ?: default.onDropped
-        set(value) {
-            super.onDropped = value
+    private val onDragLocationChild = object : ChildOnDragLocation {
+        override fun callSuper(view: View, x: Float, y: Float) {
+            default.onDragLocation?.invoke(view, x, y)
         }
+    }
 
-    override var onDragLocation: ((View, Float, Float) -> Unit)?
-        get() = local?.onDragLocation ?: default.onDragLocation
-        set(value) {
-            super.onDragLocation = value
-        }
+    fun onDropped() {
+        local
+            ?.onDropped
+            ?.invoke(onDroppedChild, sender, receiver)
+            ?: default
+                .onDropped
+                ?.invoke(sender, receiver)
+    }
+
+    fun onDragEntered(view: View) {
+        local
+            ?.onDragEntered
+            ?.invoke(onDragEnteredChild, view)
+            ?: default
+                .onDragEntered
+                ?.invoke(view)
+    }
+
+    fun onDragExited(view: View) {
+        local
+            ?.onDragExited
+            ?.invoke(onDragExitedChild, view)
+            ?: default
+                .onDragExited
+                ?.invoke(view)
+    }
+
+    fun onDragLocation(view: View, x: Float, y: Float) {
+        local
+            ?.onDragLocation
+            ?.invoke(onDragLocationChild, view, x, y)
+            ?: default
+                .onDragLocation
+                ?.invoke(view, x, y)
+    }
 
 }
-
-class WrongArgumentsException(): Exception("Unable to cast arguments")
 
 /**
  * User actions

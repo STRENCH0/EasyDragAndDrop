@@ -16,4 +16,6 @@ interface DragAndDropController<S, R> {
     fun disable()
 
     fun enable()
+
+    fun clear()
 }

@@ -27,4 +27,6 @@ class DragAndDropControllerImpl<S, R>(
     override fun disable() = manager.disable()
 
     override fun enable() = manager.applyDragAndDrop()
+
+    override fun clear() = manager.clear()
 }

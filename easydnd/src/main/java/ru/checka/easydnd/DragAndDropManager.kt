@@ -18,7 +18,7 @@ class DragAndDropManager<S, R> {
     private var senders: MutableSet<DragAndDropObject<S>> = mutableSetOf()
     private var receivers: MutableSet<DragAndDropObject<R>> = mutableSetOf()
     private val configs =
-        SenderToReceiverActions<String, String, DragAndDropLocalConfigInternal<S, R>>()
+        SenderToReceiverActions<String, String, DragAndDropInternalConfig<S, R>>()
 
     val defaultConfig: DragAndDropDefaultConfig<S, R> = DragAndDropDefaultConfig()
     /**
@@ -32,12 +32,6 @@ class DragAndDropManager<S, R> {
         newReceivers: Set<DragAndDropObject<R>>,
         localConfig: DragAndDropLocalConfig<S, R>? = null
     ) {
-        data class Temp(val tag: String, val assigned: S)
-        val newSendersTemp = newSenders.map { Temp(it.tag, it.assignedObject) }
-        val sendersTemp = senders.map { Temp(it.tag, it.assignedObject) }
-        if (sendersTemp.isNotEmpty() && sendersTemp.intersect(newSendersTemp).isEmpty()) {
-            throw OverridingSenderAssignmentException()
-        }
         //save all mappings
         senders.addAll(newSenders)
         receivers.addAll(newReceivers)
@@ -47,7 +41,7 @@ class DragAndDropManager<S, R> {
             for (receiver in newReceivers) {
                 val receiverTag = receiver.tag
                 configs[receiverTag, senderTag] =
-                    DragAndDropLocalConfigInternal(
+                    DragAndDropInternalConfig(
                         localConfig,
                         defaultConfig,
                         sender.assignedObject,
@@ -63,6 +57,12 @@ class DragAndDropManager<S, R> {
     fun applyDragAndDrop() {
         prepareSenders()
         prepareReceivers()
+    }
+
+    fun clear() {
+        senders.clear()
+        receivers.clear()
+        configs.clear()
     }
 
     /**
@@ -154,7 +154,7 @@ class DragAndDropManager<S, R> {
             if (receiverTag is String) {
                 val config =
                     configs[receiverTag, event.clipDescription.label.toString()]
-                config?.onDragExited?.invoke(view)
+                config?.onDragExited(view)
             }
         }
 
@@ -163,7 +163,7 @@ class DragAndDropManager<S, R> {
             if (receiverTag is String) {
                 val config =
                     configs[receiverTag, event.clipDescription.label.toString()]
-                config?.onDragLocation?.invoke(view, event.x, event.y)
+                config?.onDragLocation(view, event.x, event.y)
             }
         }
 
@@ -172,7 +172,7 @@ class DragAndDropManager<S, R> {
             if (receiverTag is String) {
                 val config =
                     configs[receiverTag, event.clipDescription.label.toString()]
-                config?.onDragEntered?.invoke(view)
+                config?.onDragEntered(view)
             }
         }
 
@@ -180,7 +180,7 @@ class DragAndDropManager<S, R> {
             val receiverTag = view.tag
             if (receiverTag is String) {
                 val config = configs[receiverTag, event.clipDescription.label.toString()]
-                config?.onDropped?.invoke(config.sender, config.receiver)
+                config?.onDropped()
             }
         }
 
